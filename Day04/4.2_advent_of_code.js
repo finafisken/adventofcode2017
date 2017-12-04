@@ -7,7 +7,7 @@ const isAnagram = (word1, word2) => {
   if(base.length === toCheck.length) {
     return base.every(letter => {
       // for each letter in base there is an equal amount
-      // of the same latter in toCheck
+      // of the same letter in toCheck
       const amountInBase = base.filter(l => l === letter).length;
       const amountInToCheck = toCheck.filter(l => l === letter).length;
       return amountInBase === amountInToCheck;
