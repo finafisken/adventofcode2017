@@ -1,17 +1,4 @@
-// const { input } = require('./input');
-const input = `pbga (66)
-xhth (57)
-ebii (61)
-havc (66)
-ktlj (57)
-fwft (72) -> ktlj, cntj, xhth
-qoyq (66)
-padx (45) -> pbga, havc, qoyq
-tknk (41) -> ugml, padx, fwft
-jptl (61)
-ugml (68) -> gyxo, ebii, jptl
-gyxo (61)
-cntj (57)`;
+const { input } = require('./input');
 const inputArray = input.split('\n');
 
 const hasChildren = node => node.indexOf(' -> ') !== -1;
@@ -24,27 +11,9 @@ const nodes = inputArray.map(node => ({
 }));
 
 const nodesWithChildren = nodes.filter(node => node.children.length > 0);
-// const findParents = (node, otherNodes) => otherNodes.find(other => other.children.includes(node.name));
-const findParents = (node, otherNodes) => {
-  const lul = other => {
-    console.log(other.children.includes(node.name))
-    return other.children.includes(node.name);
-  }
-  console.log(otherNodes.find(lul));
-  return otherNodes.find(lul);
-}
-// ^ WORKS CORRECTLY
+const findParent = (node, otherNodes) => otherNodes.find(other => other.children.includes(node.name));
 
-const findRootNode = remainingNodes => {
-  console.log(remainingNodes);
-  if(remainingNodes.length === 1){
-    return remainingNodes[0].name;
-  }
-  const parents = remainingNodes.filter(node => findParents(node, remainingNodes))
-  findRootNode(parents);
-};
-
-
-const rootNode = findRootNode(nodesWithChildren);
-console.log(rootNode);
+// The node without a parent is the root node
+const rootNode = nodesWithChildren.filter(node => !findParent(node, nodesWithChildren))[0];
+console.log(rootNode.name);
 
