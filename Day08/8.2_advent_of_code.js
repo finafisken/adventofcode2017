@@ -23,13 +23,16 @@ const evalCondition = (reg, operator, val) => {
   return eval(`${registers[idx].val} ${operator} ${val}`); 
 };
 
+let highestVal = 0;
 instructions.forEach(inst => {
   const { register, compare, val } = inst.condition;
   if (evalCondition(register, compare, val)) {
     const op = inst.action.type === 'inc' ? '+' : '-';
     const idx = registers.findIndex(r => r.name === inst.register);
-    registers[idx].val = evalCondition(inst.register, op, inst.action.amount);
+    const newVal = evalCondition(inst.register, op, inst.action.amount);
+    highestVal = Math.max(highestVal, newVal);
+    registers[idx].val = newVal;
   }
 });
 
-console.log(Math.max(...registers.map(x => x.val)));
+console.log(highestVal);
