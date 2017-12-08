@@ -18,4 +18,20 @@ const instructions = inputArr.map((inst, idx, self) => {
   }
 });
 
-console.log(instructions);
+const evalCondition = (reg, operator, val) => {
+  const idx = registers.findIndex(r => r.name === reg)
+  const cond = `${registers[idx].val} ${operator} ${val}`;
+  return eval(cond); 
+}
+
+instructions.forEach(inst => {
+  const { register, compare, val } = inst.condition;
+  const cond = evalCondition(register, compare, val);
+  if (cond) {
+    const sign = inst.action.type === 'inc' ? '+' : '-';
+    const idx = registers.findIndex(r => r.name === inst.register);
+    registers[idx].val = evalCondition(inst.register, sign, inst.action.amount);
+  }
+})
+
+console.log(Math.max(...registers.map(x => x.val)));
