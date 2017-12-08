@@ -1,17 +1,4 @@
-// const { input } = require('./input');
-const input = `pbga (66)
-xhth (57)
-ebii (61)
-havc (66)
-ktlj (57)
-fwft (72) -> ktlj, cntj, xhth
-qoyq (66)
-padx (45) -> pbga, havc, qoyq
-tknk (41) -> ugml, padx, fwft
-jptl (61)
-ugml (68) -> gyxo, ebii, jptl
-gyxo (61)
-cntj (57)`;
+const { input } = require('./input');
 const inputArray = input.split('\n');
 
 const hasChildren = node => node.indexOf(' -> ') !== -1;
@@ -30,14 +17,14 @@ const getTotalNodeWeight = ({ children, weight, name }, nodesWithTotalWeight) =>
   if (children.length === 0) return weight;
   return children
     .map(childName => nodesWithTotalWeight.find(node => node.name === childName))
+    .filter(x => x)
     .map(x => x.totalWeight)
     .reduce((a, b) => a + b) + weight;
 };
 
 const nodesWithoutChildren = nodes.filter(node => node.children.length === 0)
-  .map(node => ({ ...node, totalWeight: getTotalNodeWeight(node, nodes)}));
+  .map(node => Object.assign({}, node, { totalWeight: getTotalNodeWeight(node, nodes) }));
 const nodesWithChildren = nodes.filter(node => node.children.length > 0);
-
 
 nodes = [...nodesWithoutChildren, ...nodesWithChildren];
 let nodesWithTotalWeight = [...nodesWithoutChildren];
@@ -72,24 +59,5 @@ const anomalyWeight = imbalancedNodeChildren.filter(x => x.totalWeight === weigh
 const weight = imbalancedNodeChildren.find(node => node.totalWeight === anomalyWeight).weight;
 console.log(JSON.stringify(imbalancedNode, null, 2));
 console.log(weight - weightDelta);
-
-
-
-
-
-
-
-
-
-
-
-const findRootNode = remainingNodes => {
-  if(remainingNodes.length <= 1) {
-    return remainingNodes[0];
-  }
-  const parents = remainingNodes.filter(node => !findParent(node, remainingNodes));
-  
-  return findRootNode(parents);
-};
 
 
