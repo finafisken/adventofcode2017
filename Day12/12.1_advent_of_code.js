@@ -8,8 +8,17 @@ const pipes = input.split('\n').map(row => ({
   connections: getConnections(row),
 }));
 
-// followConnections = pipe => {
+const visited = [0];
 
-// }
+followConnections = pipe => {
+  pipe.connections.forEach(conn => {
+    if (!visited.includes(conn)) {
+      visited.push(conn);
+      followConnections(pipes.find(pipe => pipe.id === conn));
+    }
+  });
+}
 
-console.log(pipes);
+followConnections(pipes[0]);
+
+console.log(visited.length);
