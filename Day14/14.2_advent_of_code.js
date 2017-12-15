@@ -15,30 +15,25 @@ const grid = Array(128)
 
 let regions = 0;
 
-const checkForRegion = (rowIdx, idx) => {
-  if (rowIdx === 127 && idx === 127) {
-    return;
-  }
+const validate = (x, y) => x < grid.length && y < grid.length && x >= 0 && y >= 0 ? grid[x][y] : '0';
 
-  const row = grid[rowIdx];
-  const prevRow = rowIdx === 0 ? Array(128).fill('0') : grid[rowIdx-1];
-  const val = row[idx];
-  const prevVal = idx === 0 ? '0' : row[idx-1];
+const floodFill = (x, y) => {
+  // https://en.wikipedia.org/wiki/Flood_fill
+  if (validate(x,y) === '0') return;
+  grid[x][y] = '0';
+  floodFill(x-1, y);
+  floodFill(x+1, y);
+  floodFill(x, y-1);
+  floodFill(x, y+1);
+}
 
-  if(val === '1') {
-    if(prevVal === '1' || prevRow[idx] === '1') {
-      // connected
-    } else {
+for (let x=0; x < grid.length; x++){
+  for (let y=0; y < grid.length; y++){
+    if (grid[x][y] === '1') {
       regions++;
+      floodFill(x,y);
     }
-  }
-
-  if (idx === 127) {
-    return checkForRegion(++rowIdx, 0);
-  } else {
-    return checkForRegion(rowIdx, ++idx);
   }
 }
 
-checkForRegion(0,0);
 console.log(regions);
