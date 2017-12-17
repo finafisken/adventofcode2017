@@ -11,7 +11,7 @@ let target;
 const loop = pos => pos % len;
 
 for (let val = 1; val <= 50000000; val++) {
-  pos = loop((pos + steps)) + 1
+  pos = loop((pos + steps)) + 1;
   if(pos === 1) target = val;
   len++;
 }
