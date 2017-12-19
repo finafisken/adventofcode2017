@@ -1,4 +1,3 @@
-// const { input } = require('./input');
 const fs = require('fs');
 const input = fs.readFileSync('input.txt', 'utf8');
 
@@ -24,7 +23,7 @@ const getDir = ([r, c]) => {
   for (pDir in possibleDirs) {
     const posCord = possibleDirs[pDir];
     if(pDir !== opposite[dir] && grid[posCord[0]][posCord[1]] !== ' '){
-      console.log('found new dir: ', pDir, dir);
+      // console.log('found new dir: ', pDir, dir);
       return pDir;
     }
   }
@@ -33,24 +32,49 @@ const getDir = ([r, c]) => {
 const letters = [];
 let dir = 'down';
 
-doStep = ([r, c]) => {
+// doStep = ([r, c]) => {
+//   // const prevSymb = grid[prevCoord[0]][prevCoord[1]];
+//   const symb = grid[r][c];
+//   console.log({r, c, dir, symb});
+//   if (symb === '|' || symb === '-' || /[A-Z]/.test(symb)) {
+//     // this symbol is non ambiguous, use same dir as last time
+//     if(/[A-Z]/.test(symb)) {
+//       letters.push(symb);
+
+//       // we have reached the end of the maze
+//       if (move([r,c])[dir] === ' ') return letters.join('');
+//     }
+//   } else if (symb === '+') {
+//     // this symbol is ambiguous, check for new direction
+//     console.log('++++');
+//     dir = getDir([r, c]);
+//   }
+//   return doStep(move([r,c])[dir]);
+// }
+
+// console.log(doStep([0, findStartCol]));
+
+let done = false;
+let r = 0;
+let c = findStartCol;
+while (!done) {
   // const prevSymb = grid[prevCoord[0]][prevCoord[1]];
   const symb = grid[r][c];
-  console.log({r, c, dir, symb});
+  // console.log({r, c, dir, symb});
   if (symb === '|' || symb === '-' || /[A-Z]/.test(symb)) {
     // this symbol is non ambiguous, use same dir as last time
     if(/[A-Z]/.test(symb)) {
       letters.push(symb);
-
+      console.log(symb);
       // we have reached the end of the maze
-      if (move([r,c])[dir] === ' ') return letters.join('');
+      if (move([r,c])[dir] === ' ') done = true;
     }
   } else if (symb === '+') {
     // this symbol is ambiguous, check for new direction
-    console.log('++++');
+    // console.log('++++');
     dir = getDir([r, c]);
   }
-  return doStep(move([r,c])[dir]);
+  [r, c] = move([r,c])[dir];
 }
 
-console.log(doStep([0, findStartCol]));
+console.log(letters.join(''));
