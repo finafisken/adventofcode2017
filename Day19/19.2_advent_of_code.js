@@ -30,10 +30,12 @@ const getDir = ([r, c]) => {
 
 const letters = [];
 let dir = 'down';
+let steps = 0;
 let done = false;
 let r = 0;
 let c = findStartCol;
 while (!done) {
+  steps++;
   const symb = grid[r][c];
   if (symb === '|' || symb === '-' || /[A-Z]/.test(symb)) {
     // this symbol is non ambiguous, use same dir as last time
@@ -52,3 +54,4 @@ while (!done) {
 }
 
 console.log(letters.join(''));
+console.log(steps);
