@@ -72,7 +72,7 @@ const merge = arr => {
 
 let iter = 1;
 let pattern = startPattern;
-while (iter <= 5) {
+while (iter <= 18) {
   const blockSize = pattern.length % 2 === 0 ? 2 : 3;
   const blockStrs = split(pattern, blockSize);
   for (let i = 0; i < blockStrs.length; i++){
