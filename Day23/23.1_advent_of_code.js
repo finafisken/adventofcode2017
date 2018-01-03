@@ -26,6 +26,7 @@ const fn = {
 
 let count = 0;
 let i = 0;
+
 while (i < instructions.length) {
   const cInst = instructions[i];
   const { operation, register, modifier } = cInst;
@@ -40,4 +41,5 @@ while (i < instructions.length) {
       break;
   }
 }
+
 console.log(count);
