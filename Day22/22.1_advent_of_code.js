@@ -9,17 +9,17 @@ const turnDir = left => ({
   w: left ? 's' : 'n'
 });
 
-const newPos = ({x, y}) => ({
-  n: { x, y: y-1 },
-  s: { x, y: y+1 },
-  e: { x: x+1, y },
-  w: { x: x-1, y },
+const newPos = ({ x, y }) => ({
+  n: { x, y: y - 1 },
+  s: { x, y: y + 1 },
+  e: { x: x + 1, y },
+  w: { x: x - 1, y }
 });
 
-const extendGrid = grid => {  
+const extendGrid = grid => {
   const newGrid = grid.map(row => ['.', ...row, '.']);
-  return [ 
-    new Array(newGrid[0].length).fill('.'), 
+  return [
+    new Array(newGrid[0].length).fill('.'),
     ...newGrid,
     new Array(newGrid[0].length).fill('.')
   ];
@@ -29,8 +29,8 @@ const doStep = (grid, pos, dir) => {
   let nGrid = [...grid];
   const infected = grid[pos.y][pos.x] === '#';
   const nDir = turnDir(!infected)[dir];
-  if (infected){
-    grid[pos.y][pos.x] = '.';  
+  if (infected) {
+    grid[pos.y][pos.x] = '.';
   } else {
     nodesInfected++;
     grid[pos.y][pos.x] = '#';
@@ -54,9 +54,9 @@ const doStep = (grid, pos, dir) => {
 let i = 0;
 let grid = [...startGrid];
 let dir = 'n';
-let pos = { 
-  x: Math.floor(grid.length / 2), 
-  y: Math.floor(grid.length / 2) 
+let pos = {
+  x: Math.floor(grid.length / 2),
+  y: Math.floor(grid.length / 2)
 };
 let nodesInfected = 0;
 

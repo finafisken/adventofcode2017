@@ -1,11 +1,9 @@
 const { input } = require('./input');
-const instructions = input.split('\n').map(row =>
-  ({
-    operation: row.split(' ')[0],
-    register: row.split(' ')[1],
-    modifier: row.split(' ')[2]
-  })
-);
+const instructions = input.split('\n').map(row => ({
+  operation: row.split(' ')[0],
+  register: row.split(' ')[1],
+  modifier: row.split(' ')[2]
+}));
 const registers = {
   a: 0,
   b: 0,
@@ -17,12 +15,13 @@ const registers = {
   h: 0
 };
 
-const getVal = val => Number.isInteger(parseInt(val)) ? parseInt(val) : parseInt(registers[val]);
+const getVal = val =>
+  Number.isInteger(parseInt(val)) ? parseInt(val) : parseInt(registers[val]);
 const fn = {
-  set: (reg, val) => registers[reg] = getVal(val),
-  sub: (reg, val) => registers[reg] = registers[reg] - getVal(val),
-  mul: (reg, val) => registers[reg] = registers[reg] * getVal(val),
-}
+  set: (reg, val) => (registers[reg] = getVal(val)),
+  sub: (reg, val) => (registers[reg] = registers[reg] - getVal(val)),
+  mul: (reg, val) => (registers[reg] = registers[reg] * getVal(val))
+};
 
 let count = 0;
 let i = 0;
@@ -33,7 +32,7 @@ while (i < instructions.length) {
   if (operation === 'mul') count++;
   switch (operation) {
     case 'jnz':
-      getVal(register) !== 0 ? i += getVal(modifier) : i++;
+      getVal(register) !== 0 ? (i += getVal(modifier)) : i++;
       break;
     default:
       fn[operation](register, modifier);
