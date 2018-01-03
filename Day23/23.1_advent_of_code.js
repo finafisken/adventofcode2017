@@ -1,9 +1,9 @@
-const { input } = require("./input");
-const instructions = input.split("\n").map(row =>
+const { input } = require('./input');
+const instructions = input.split('\n').map(row =>
   ({
-    operation: row.split(" ")[0],
-    register: row.split(" ")[1],
-    modifier: row.split(" ")[2]
+    operation: row.split(' ')[0],
+    register: row.split(' ')[1],
+    modifier: row.split(' ')[2]
   })
 );
 const registers = {
