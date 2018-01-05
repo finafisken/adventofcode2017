@@ -15,7 +15,7 @@ const buildBridge = (bridge, remaining) => {
   const matched = findMatches(bridge[bridge.length - 1], remaining);
 
   if (matched.length === 0) {
-    if(longestBridges[0].length <= bridge.length){
+    if (longestBridges[0].length <= bridge.length) {
       longestBridges.push({
         length: bridge.length,
         strength: sum(bridge)
@@ -41,4 +41,10 @@ const buildBridge = (bridge, remaining) => {
 
 buildBridge([0], components);
 
-console.log(JSON.stringify(longestBridges, null, 2));
+const maxlength = Math.max(...longestBridges.map(bridge => bridge.length));
+const result = longestBridges
+  .filter(bridge => bridge.length === maxlength)
+  .map(bridge => bridge.strength)
+  .sort();
+
+console.log(result[result.length - 1]);
